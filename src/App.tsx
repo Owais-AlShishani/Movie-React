@@ -1,11 +1,15 @@
+import { useState } from "react";
 import "./App.css";
+import Alert from "./components/Alert";
 import Button from "./components/Button";
 
 function App() {
+  const [displayMessage, setDisplayMessage] = useState(false);
+
   return (
     <div>
-      {/* <Alert>Hello World</Alert> */}
-      <Button onClick={() => console.log('Clicked')} color={"primary"}>My Button</Button>
+      {displayMessage && <Alert onClose={() => setDisplayMessage(false)}>My Alert</Alert>}
+      <Button onClick={() => setDisplayMessage(true)} color={"primary"}>My Button</Button>
     </div>
   );
 }
