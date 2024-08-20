@@ -1,0 +1,22 @@
+.btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
+
+    &:active {
+        background-color: #ccc;
+    }
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
