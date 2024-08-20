@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import './ListGroup.css'
 interface ListGroupProps {
   //shape of the props that ListGroup component will get
   items: string[];
