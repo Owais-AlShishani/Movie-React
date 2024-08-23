@@ -1,20 +1,34 @@
+import { useRef } from "react"
 
 const Form = () => {
+    const nameRef = useRef<HTMLInputElement>(null);
+    const ageRef = useRef<HTMLInputElement>(null);
+    const person = {
+        name: '',
+        age: 0
+    }
+
     const handleSubmit = (event: { preventDefault: () => void }) => {
         event.preventDefault()
-        console.log('Submited')
+
+        if (nameRef.current !== null)
+            person.name = nameRef.current.value
+
+        if (ageRef.current !== null)
+            person.age = parseInt(ageRef.current.value)
+        console.log(person)
     }
     return (
         <form onSubmit={handleSubmit}>
             {/* {referencing the function here not calling it} */}
             <div className="mb-3">
                 <label htmlFor="name" className="form-label">Name</label>
-                <input id='name' type="text" className="form-control" />
+                <input ref={nameRef} id='name' type="text" className="form-control" />
             </div>
 
             <div className="mb-3">
                 <label htmlFor="age" className="form-label">Age</label>
-                <input id='age' type="number" className="form-control" />
+                <input ref={ageRef} id='age' type="number" className="form-control" />
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
