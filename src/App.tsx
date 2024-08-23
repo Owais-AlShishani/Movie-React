@@ -7,6 +7,7 @@ import { BsCalendar2DateFill } from "react-icons/bs";
 import Like from "./components/Like";
 import NavBar from "./components/NavBar";
 import Cart from "./components/Cart";
+import Form from "./components/Form";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
       {/* {console.log('Log', game)} */}
       {/* <NavBar count={cartItems.length} />*/}
       {/* <Cart cartItems={cartItems} onClear={handleClick} /> */}
+      <Form />
     </>
   );
 }
