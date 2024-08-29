@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import ProductList from "./components/ProductList";
 function App() {
-  const [category, setCategory] = useState('');
+  const connect = () => console.log('Connected')
+  const disconnect = () => console.log('Disconnected')
+  useEffect(() => {
+    connect();
+
+    return () => disconnect();
+
+  }, [])
   return (
     <>
-      <select className="form-select" onChange={(event) => setCategory(event.target.value)}>
-        <option value=""></option>
-        <option value="Clothing">Clothing</option>
-        <option value="HouseHold">HouseHold</option>
-      </select>
-      <ProductList category={category} />
+
     </>
   );
 }
