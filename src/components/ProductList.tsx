@@ -6,7 +6,7 @@ const ProductList = ({ category }: { category: string }) => {
         console.log('Fetching Products', category);
         setProducts(['Clothing', 'HouseHold'])
         // console.log(product)
-    }, [category])
+    }, [])
 
     return (
         <div>ProductList</div>
