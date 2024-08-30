@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import axios, { Axios } from "axios";
+import axios, { Axios, AxiosError } from "axios";
 
 interface IUser {
   id: number,
@@ -11,9 +11,18 @@ function App() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get<IUser[]>('https://jsonplaceholder.typicode.com/susers')
-      .then(result => setUsers(result.data))
-      .catch(err => setError(err.message));
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get<IUser[]>('https://jsonplaceholder.typicode.com/users')
+        setUsers(res.data);
+      }
+      catch (err) {
+        setError((err as AxiosError).message)
+      }
+    }
+
+    fetchUsers
+
   }, [])
   return (
     <>
