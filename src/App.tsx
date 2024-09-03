@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import apiClient, { CanceledError } from "./services/api-client";
+import { CanceledError } from "./services/api-client";
+import userService, { IUser } from "./services/user-service";
 
-interface IUser {
-  id: number,
-  name: string,
-}
+
 
 function App() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -13,19 +11,18 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const controller = new AbortController();
     setIsLoading(true);
-    apiClient.get<IUser[]>('/users', { signal: controller.signal })
-      .then((res) => {
-        setIsLoading(false);
-        setUsers(res.data)
-      })
+    const { request, cancel } = userService.getAllUsers();
+    request.then((res) => {
+      setIsLoading(false);
+      setUsers(res.data)
+    })
       .catch((err) => {
         if (err instanceof CanceledError) return;
         setError(err.message)
         setIsLoading(false);
       });
-    return () => controller.abort();
+    return cancel();
   }, []);
 
   const deleteUser = (user: IUser) => {
@@ -33,7 +30,7 @@ function App() {
     const originalUsers = [...users];
 
     setUsers(users.filter(u => u.id !== user.id));//Deleted in UI
-    apiClient.delete(`/users/${user.id}`)// Actuall deleted
+    userService.deleteUser(user.id)// Actuall deleted
       .catch(err => {
         setError(err.message);
         setUsers(originalUsers);// return previous users if error happend
@@ -44,7 +41,7 @@ function App() {
     const originalUsers = [...users];
     const newUser = { id: 0, name: 'mosh' };
     setUsers([...users, newUser]);
-    apiClient.post('/users', newUser)
+    userService.createUser(newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((err) => {
         setError(err.message);
@@ -56,7 +53,7 @@ function App() {
     const originalUsers = [...users];
     const updatedUser = { ...user, name: user.name + '!' };
     setUsers(users.map(u => u.id === user.id ? updatedUser : u))
-    apiClient.patch('/users/' + user.id, updatedUser)
+    userService.updateUser(user.id, updatedUser)
       .catch(err => {
         setError(err.message);
         setUsers(originalUsers);
